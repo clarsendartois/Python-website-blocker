@@ -15,8 +15,12 @@ font_style_text1 = ("Bookman Old Style", 60, "bold")
 font_style_text2 = ("Bookman Old Style", 30, "bold")
 font_style_text3 = ("Bookman Old Style", 15)
 font_style_website_enter = ("Bookman Old Style", 30)
+font_style_block = ("Bookman Old Style", 30, "bold")
 
 standard_bg_color = "#242424"
+
+host_path = "hosts.txt"
+ip_address = "127.0.0.1"
 
 
 class WebsiteBloker:
@@ -30,6 +34,8 @@ class WebsiteBloker:
         self.elements = self.create_elements()
 
     def create_elements(self):
+        global website_enter
+
         text1 = ctk.CTkLabel(self.window, text=text_text1,
                              font=font_style_text1)
         text1.pack()
@@ -48,15 +54,48 @@ class WebsiteBloker:
 
         block_img = ctk.CTkImage(light_image=Image.open(
             "./img/block.png"), size=(100, 100))
-        del_btn = ctk.CTkButton(self.window, text="", image=block_img, border_width=0,
-                                width=1, bg_color=standard_bg_color, fg_color=standard_bg_color)
-        del_btn.place(relx=0.5, rely=0.5, x=-230, y=1)
+        block_btn = ctk.CTkButton(self.window, text="", image=block_img, border_width=0,
+                                  width=1, bg_color=standard_bg_color, fg_color=standard_bg_color, command=self.block_site)
+        block_btn.place(relx=0.5, rely=0.5, x=-260, y=1)
 
         unblock_img = ctk.CTkImage(light_image=Image.open(
             "./img/unblock.png"), size=(106, 106))
-        del_btn = ctk.CTkButton(self.window, text="", image=unblock_img, border_width=0,
-                                width=1, bg_color=standard_bg_color, fg_color=standard_bg_color)
-        del_btn.place(relx=0.5, rely=0.5, x=100, y=-3)
+        unblock_btn = ctk.CTkButton(self.window, text="", image=unblock_img, border_width=0,
+                                    width=1, bg_color=standard_bg_color, fg_color=standard_bg_color, command=self.unblock_site)
+        unblock_btn.place(relx=0.5, rely=0.5, x=130, y=-3)
+
+    def block_site(self):
+        website_lists = website_enter.get(1.0, "end")
+        website = list(website_lists.split(","))
+        with open(host_path, "r+") as host_file:
+            flle_content = host_file.read()
+            for web in website:
+                if web in flle_content:
+                    ctk.CTkLabel(self.window, text="Already Blocked",
+                                 font=font_style_block).place(x=165, y=250)
+                    pass
+                else:
+                    host_file.write(ip_address + " " + web + "\n")
+                    ctk.CTkLabel(self.window, text="Blocked",
+                                 font=font_style_block).place(x=110, y=10)
+
+    def unblock_site(self):
+        # website_lists = website_enter.get(1.0, "end")
+        # website = list(website_lists.split(","))
+        with open(host_path, "r+") as host_file:
+            flle_content = host_file.readline()
+            host_file.seek(0)
+            for line in flle_content:
+                if not any(web in line for web in website_enter):
+                    host_file.write(line)
+            host_file.truncate()
+            #     ctk.CTkLabel(self.window, text="Already Blocked",
+            #                  font=font_style_block).place(x=165, y=250)
+            #     pass
+            # else:
+            #     host_file.write(ip_address + " " + web + "\n")
+            #     ctk.CTkLabel(self.window, text="Blocked",
+            #                  font=font_style_block).place(x=110, y=10)
 
     def run(self):
         self.window.mainloop()
