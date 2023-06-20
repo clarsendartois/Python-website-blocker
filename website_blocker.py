@@ -96,8 +96,7 @@ class WebsiteBloker:
         # website = list(website_lists.split(","))
 
         with open(host_path, "r+") as host_file:
-            flle_content = host_file.readlines()
-            host_file.seek(0)
+
             for line in flle_content:
                 if not any(web in line for web in str(add_text)):
                     host_file.write(line)
