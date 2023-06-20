@@ -83,6 +83,15 @@ class WebsiteBloker:
                                  font=font_style_block).place(x=110, y=10)
 
     def unblock_site(self):
+        pass
+        # with open(host_path, "r+") as host_file:
+        #     flle_content = host_file.readline()
+        #     host_file.seek(0)
+
+        #     for line in flle_content:
+        #         # if not any(str(web in line for web in website_lists)):
+        #             host_file.write(line)
+        #         host_file.truncate()
 
         # with open(host_path, "r+") as f:
         #     d = f.readline()
@@ -95,12 +104,12 @@ class WebsiteBloker:
         # website_lists = website_enter.get(1.0, "end")
         # website = list(website_lists.split(","))
 
-        with open(host_path, "r+") as host_file:
+        # with open(host_path, "r+") as host_file:
 
-            for line in flle_content:
-                if not any(web in line for web in str(add_text)):
-                    host_file.write(line)
-                host_file.truncate()
+        #     for line in flle_content:
+        #         if not any(web in line for web in str(add_text)):
+        #             host_file.write(line)
+        #         host_file.truncate()
 
             #     ctk.CTkLabel(self.window, text="Already Blocked",
             #                  font=font_style_block).place(x=165, y=250)
