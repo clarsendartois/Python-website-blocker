@@ -65,6 +65,7 @@ class WebsiteBloker:
         unblock_btn.place(relx=0.5, rely=0.5, x=130, y=-3)
 
     def block_site(self):
+        global add_text
         website_lists = website_enter.get(1.0, "end")
         website = list(website_lists.split(","))
         with open(host_path, "r+") as host_file:
@@ -75,20 +76,32 @@ class WebsiteBloker:
                                  font=font_style_block).place(x=165, y=250)
                     pass
                 else:
-                    host_file.write(ip_address + " " + web + "\n")
+                    add_text = ip_address + " " + web + "\n"
+                    host_file.write(add_text)
+                    # host_file.write(ip_address + " " + web + "\n")
                     ctk.CTkLabel(self.window, text="Blocked",
                                  font=font_style_block).place(x=110, y=10)
 
     def unblock_site(self):
+
+        # with open(host_path, "r+") as f:
+        #     d = f.readline()
+        #     f.seek(0)
+        #     for i in d:
+        #         if i != "line you want to remove...":
+        #             f.write(i)
+        #     f.truncate()
+
         # website_lists = website_enter.get(1.0, "end")
         # website = list(website_lists.split(","))
+
         with open(host_path, "r+") as host_file:
-            flle_content = host_file.readline()
-            host_file.seekable()
+
             for line in flle_content:
-                if not any(web in line for web in website_enter):
+                if not any(web in line for web in str(add_text)):
                     host_file.write(line)
-            host_file.truncate()
+                host_file.truncate()
+
             #     ctk.CTkLabel(self.window, text="Already Blocked",
             #                  font=font_style_block).place(x=165, y=250)
             #     pass
