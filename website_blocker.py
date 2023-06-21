@@ -19,7 +19,7 @@ font_style_block = ("Bookman Old Style", 30, "bold")
 
 standard_bg_color = "#242424"
 
-host_path = "hosts.txt"
+host_path = "C:\Windows\System32\drivers\etc\hosts"
 ip_address = "127.0.0.1"
 
 
@@ -32,6 +32,13 @@ class WebsiteBloker:
         self.window.title("CLARSEN: Website Blocker")
 
         self.elements = self.create_elements()
+        self.admin = self.is_admin()
+
+    def is_admin(self):
+        try:
+            return ctypes.windll.shell32.IsUserAnAdmin()
+        except:
+            return False
 
     def create_elements(self):
         global website_enter
@@ -65,27 +72,29 @@ class WebsiteBloker:
         unblock_btn.place(relx=0.5, rely=0.5, x=130, y=-3)
 
     def block_site(self):
-        global add_text
-        website_lists = website_enter.get(1.0, "end")
-        website = list(website_lists.split(","))
-        with open(host_path, "r+") as host_file:
-            flle_content = host_file.read()
-            for web in website:
-                if web in flle_content:
-                    ctk.CTkLabel(self.window, text="Already Blocked",
-                                 font=font_style_block).place(x=165, y=200)
-                    pass
-                else:
-                    add_text = ip_address + " " + web
-                    host_file.write(add_text)
-                    ctk.CTkLabel(self.window, text="Blocked",
-                                 font=font_style_block).place(x=240, y=150)
+        if self.admin:
+            website_lists = website_enter.get(1.0, "end")
+            website = list(website_lists.split(","))
+            with open(host_path, "r+") as host_file:
+                flle_content = host_file.read()
+                for web in website:
+                    if web in flle_content:
+                        ctk.CTkLabel(self.window, text="Already Blocked",
+                                     font=font_style_block).place(x=165, y=200)
+                        pass
+                    else:
+                        add_text = ip_address + " " + web
+                        host_file.write(add_text)
+                        ctk.CTkLabel(self.window, text="Blocked",
+                                     font=font_style_block).place(x=240, y=150)
+        else:
+            ctypes.windll.shell32.ShellExecuteW(
+                None, "runas", sys.executable, " ".join(sys.argv), None, 1)
 
     def unblock_site(self):
         data_file = open(host_path, "r")
         lines = data_file.readlines()
         data_file.close()
-
         write_file = open(host_path, "w")
         for line in lines:
             string = website_enter.get(1.0, "end")
@@ -94,7 +103,6 @@ class WebsiteBloker:
                 write_file.write(line)
             ctk.CTkLabel(self.window, text=" Full Access!",
                          font=font_style_block).place(x=200, y=250)
-
         write_file.close()
 
     def run(self):
