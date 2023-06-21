@@ -92,18 +92,22 @@ class WebsiteBloker:
                 None, "runas", sys.executable, " ".join(sys.argv), None, 1)
 
     def unblock_site(self):
-        data_file = open(host_path, "r")
-        lines = data_file.readlines()
-        data_file.close()
-        write_file = open(host_path, "w")
-        for line in lines:
-            string = website_enter.get(1.0, "end")
-            str(string)
-            if string not in line:
-                write_file.write(line)
-            ctk.CTkLabel(self.window, text=" Full Access!",
-                         font=font_style_block).place(x=200, y=250)
-        write_file.close()
+        if self.admin:
+            data_file = open(host_path, "r")
+            lines = data_file.readlines()
+            data_file.close()
+            write_file = open(host_path, "w")
+            for line in lines:
+                string = website_enter.get(1.0, "end")
+                str(string)
+                if string not in line:
+                    write_file.write(line)
+                ctk.CTkLabel(self.window, text=" Full Access!",
+                             font=font_style_block).place(x=200, y=250)
+            write_file.close()
+        else:
+            ctypes.windll.shell32.ShellExecuteW(
+                None, "runas", sys.executable, " ".join(sys.argv), None, 1)
 
     def run(self):
         self.window.mainloop()
