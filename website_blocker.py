@@ -73,51 +73,29 @@ class WebsiteBloker:
             for web in website:
                 if web in flle_content:
                     ctk.CTkLabel(self.window, text="Already Blocked",
-                                 font=font_style_block).place(x=165, y=250)
+                                 font=font_style_block).place(x=165, y=200)
                     pass
                 else:
-                    add_text = ip_address + " " + web + "\n"
+                    add_text = ip_address + " " + web
                     host_file.write(add_text)
-                    # host_file.write(ip_address + " " + web + "\n")
                     ctk.CTkLabel(self.window, text="Blocked",
-                                 font=font_style_block).place(x=110, y=10)
+                                 font=font_style_block).place(x=240, y=150)
 
     def unblock_site(self):
-        pass
-        # with open(host_path, "r+") as host_file:
-        #     flle_content = host_file.readline()
-        #     host_file.seek(0)
+        data_file = open(host_path, "r")
+        lines = data_file.readlines()
+        data_file.close()
 
-        #     for line in flle_content:
-        #         # if not any(str(web in line for web in website_lists)):
-        #             host_file.write(line)
-        #         host_file.truncate()
+        write_file = open(host_path, "w")
+        for line in lines:
+            string = website_enter.get(1.0, "end")
+            str(string)
+            if string not in line:
+                write_file.write(line)
+            ctk.CTkLabel(self.window, text=" Full Access!",
+                         font=font_style_block).place(x=200, y=250)
 
-        # with open(host_path, "r+") as f:
-        #     d = f.readline()
-        #     f.seek(0)
-        #     for i in d:
-        #         if i != "line you want to remove...":
-        #             f.write(i)
-        #     f.truncate()
-
-        # website_lists = website_enter.get(1.0, "end")
-        # website = list(website_lists.split(","))
-
-        # with open(host_path, "r+") as host_file:
-
-        #     for line in flle_content:
-        #         if not any(web in line for web in str(add_text)):
-        #             host_file.write(line)
-        #         host_file.truncate()
-
-            #     ctk.CTkLabel(self.window, text="Already Blocked",
-            #                  font=font_style_block).place(x=165, y=250)
-            #     pass
-            # else:
-            #     host_file.write(ip_address + " " + web + "\n")
-            #     ctk.CTkLabel(self.window, text="Blocked",
-            #                  font=font_style_block).place(x=110, y=10)
+        write_file.close()
 
     def run(self):
         self.window.mainloop()
