@@ -19,7 +19,8 @@ font_style_block = ("Bookman Old Style", 30, "bold")
 
 standard_bg_color = "#242424"
 
-host_path = "C:\Windows\System32\drivers\etc\hosts"
+# host_path = "C:\Windows\System32\drivers\etc\hosts"
+host_path = "Desktop\hosts"
 ip_address = "127.0.0.1"
 
 
