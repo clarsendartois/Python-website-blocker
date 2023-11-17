@@ -80,13 +80,13 @@ class WebsiteBloker:
                 for web in website:
                     if web in flle_content:
                         ctk.CTkLabel(self.window, text="Already Blocked",
-                                        font=font_style_block).place(x=165, y=200)
+                                     font=font_style_block).place(x=165, y=200)
                         pass
                     else:
                         add_text = ip_address + " " + web
                         host_file.write(add_text)
                         ctk.CTkLabel(self.window, text="Blocked",
-                                        font=font_style_block).place(x=240, y=150)
+                                     font=font_style_block).place(x=240, y=150)
         else:
             ctypes.windll.shell32.ShellExecuteW(
                 None, "runas", sys.executable, " ".join(sys.argv), None, 1)
@@ -103,7 +103,7 @@ class WebsiteBloker:
                 if string not in line:
                     write_file.write(line)
                 ctk.CTkLabel(self.window, text=" Full Access!",
-                                font=font_style_block).place(x=200, y=250)
+                             font=font_style_block).place(x=200, y=250)
             write_file.close()
         else:
             ctypes.windll.shell32.ShellExecuteW(
